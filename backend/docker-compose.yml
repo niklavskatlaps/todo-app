@@ -1,0 +1,42 @@
+version: "3.8"
+services:
+  app:
+    build:
+      context: .
+      target: dev
+    restart: on-failure
+    depends_on:
+      postgres:
+        condition: service_healthy
+    env_file: .env
+    ports:
+      - ${PORT}:${PORT}
+    command: npm run start
+    volumes:
+      - .:/usr/app
+      - /usr/app/node_modules
+    networks:
+      - todo_network
+  postgres:
+    image: postgres:15-alpine
+    ports:
+      - ${DB_PORT}:${DB_PORT}
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d ${DB_NAME} -U ${DB_USER}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - todo_network
+volumes:
+  db-data:
+    driver: local
+networks:
+  todo_network:
+    external: true
