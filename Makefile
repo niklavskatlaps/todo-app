@@ -3,9 +3,9 @@ setup-backend:
 setup-frontend:
 	cd frontend && cp .env.example .env && npm install
 run-backend:
-	bash -c "cd backend && docker-compose up -d"
+	cd backend && docker-compose up -d
 run-frontend:
-	bash -c "cd frontend && npm start"
+	cd frontend && npm start
 setup:
 	make setup-backend & make setup-frontend
 run:
