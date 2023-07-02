@@ -30,6 +30,8 @@ in both `frontend` and `backend` folders for more information.
   (for example) edit our family shopping-list together
 - I as a user can mark to-do items as “done” - so that I can avoid clutter and focus on
   things that are still pending
+- I as a user can filter the to-do list and view items that were marked as done - so that I
+  can retrospect on my prior progress
 - I as a user can create multiple to-do lists where each list has it's unique URL that I can
   share with my friends - so that I could have separate to do lists for my groceries and
   work related tasks

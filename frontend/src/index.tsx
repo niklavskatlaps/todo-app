@@ -15,7 +15,7 @@ root.render(
         <div className={ "row d-flex justify-content-center align-items-center h-100" }>
           <div className={ "col col-lg-8 col-xl-6" }>
             <div className={ "card rounded-3" }>
-              <div className={ "card-body p-3" }>
+              <div className={ "card-body m-3 p-0" }>
                 <App />
               </div>
             </div>

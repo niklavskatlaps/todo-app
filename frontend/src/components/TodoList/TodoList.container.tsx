@@ -1,7 +1,11 @@
-import TodoList from "./TodoList.component";
-import { TodoList as TodoListType } from "./TodoList.type";
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { io } from "socket.io-client";
+import TodoList from "./TodoList.component";
+import {
+  Filter,
+  FilterSelectElement,
+  TodoList as TodoListType
+} from "./TodoList.type";
 import { EVENTS } from "../../socket";
 import { TodoItem } from "../TodoItem/TodoItem.type";
 
@@ -9,9 +13,17 @@ type Props = {
     data: TodoListType;
 }
 
+export const FILTERS = {
+  ALL: "ALL",
+  DONE: "DONE",
+  NOT_DONE: "NOT_DONE"
+} as const;
+
 export default function TodoListContainer(props: Props) {
   const { data } = props;
   const [todoList, setTodoList] = useState<TodoListType>(data);
+  const [filteredTodoList, setFilteredTodoList] = useState<TodoListType>(todoList);
+  const [filter, setFilter] = useState<Filter>(FILTERS.ALL);
 
   useEffect(() => {
     const socket = io(`${process.env.REACT_APP_BACKEND_URL}?todoListId=${todoList.id}`, { transports: ["websocket"] });
@@ -31,13 +43,35 @@ export default function TodoListContainer(props: Props) {
     };
   }, [todoList.id]);
 
+  useEffect(() => {
+    const filterFunctionsByFilter = {
+      [FILTERS.ALL]: () => true,
+      [FILTERS.DONE]: (todoItem: TodoItem) => todoItem.isDone,
+      [FILTERS.NOT_DONE]: (todoItem: TodoItem) => !todoItem.isDone,
+    };
+    const filterFunction = filterFunctionsByFilter[filter];
+    const filteredTodos = todoList.todos.filter(filterFunction);
+
+    setFilteredTodoList({ ...todoList, todos: filteredTodos });
+  }, [todoList, filter]);
+
+  const onFilterChange = (e: ChangeEvent<FilterSelectElement>): void => {
+    setFilter(e.target.value);
+  };
+
   const containerProps = {
-    todoList,
+    filteredTodoList,
+    filter
+  };
+
+  const containerFunctions = {
+    onFilterChange
   };
 
   return (
     <TodoList
       { ...containerProps }
+      { ...containerFunctions }
     />
   );
 }
