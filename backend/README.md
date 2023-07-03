@@ -7,7 +7,7 @@ Just another backend for a todo app.
 
 - Make sure that ports `8080` and `5432` are free on your local machine (they can be changed in the `.env` file)
 - Make sure you have docker and docker-compose installed
-   - I used docker `v24.0.2` and docker-compose `v2.18.1` but I am sure it works with older version, too
+   - I used docker `v24.0.2` and docker-compose `v2.18.1` but I am sure it works with older versions, too
 
 ### Setup guide
 1. Create a `.env` file and edit the content if needed:

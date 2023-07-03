@@ -7,7 +7,7 @@ Just another TODO app.
 
 - Make sure that ports `8080`, `5432` and `3000` are free on your local machine
 - Make sure you have docker and docker-compose installed
-  - I used docker `v24.0.2` and docker-compose `v2.18.1` but I am sure it works with older version, too
+  - I used docker `v24.0.2` and docker-compose `v2.18.1` but I am sure it works with older versions, too
 
 ### Setup guide
 
